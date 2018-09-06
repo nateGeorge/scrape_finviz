@@ -260,6 +260,7 @@ def download_group_data(driver, group_str):
     latest_market_date = get_last_open_trading_day()
     dst_filename = FILEPATH + latest_market_date + '_finviz_' + group_str + '.csv'
     os.rename(filename, dst_filename)
+    clean_group_data(filename)
 
 
 def download_stock_data(driver):
@@ -294,6 +295,80 @@ def download_stock_data(driver):
     latest_market_date = get_last_open_trading_day()
     dst_filename = FILEPATH + latest_market_date + '_finviz_stockdata.csv'
     os.rename(filename, dst_filename)
+    clean_stockdata(filename)
+
+
+def clean_stockdata(filename):
+    """
+    cleans up percent columns
+    """
+    pct_cols = ['Change',
+            'Dividend Yield',
+            'EPS growth next 5 years',
+            'EPS growth past 5 years',
+            'Float Short',
+            'Performance (Half Year)',
+            'Performance (Month)',
+            'Performance (Quarter)',
+            'Performance (Week)',
+            'Performance (YTD)',
+            'Performance (Year)',
+            'Sales growth past 5 years',
+            'Payout Ratio',
+            'EPS (ttm)',
+            'EPS growth this year',
+            'EPS growth next year',
+            'EPS growth past 5 years',
+            'EPS growth next 5 years',
+            'Sales growth past 5 years',
+            'EPS growth quarter over quarter',
+            'Sales growth quarter over quarter',
+            'Insider Ownership',
+            'Insider Transactions',
+            'Institutional Ownership',
+            'Institutional Transactions',
+            'Float Short',
+            'Return on Assets',
+            'Return on Equity',
+            'Return on Investment',
+            'Gross Margin',
+            'Operating Margin',
+            'Profit Margin',
+            'Volatility (Week)',
+            'Volatility (Month)',
+            '20-Day Simple Moving Average',
+            '50-Day Simple Moving Average',
+            '200-Day Simple Moving Average',
+            '50-Day High',
+            '50-Day Low',
+            '52-Week High',
+            '52-Week Low',
+            'Change from Open',
+            'Gap',
+            'Change']
+    df = pd.read_csv(filename)
+    df[pct_cols] = df[pct_cols].applymap(clean_pcts)
+    df.drop('No.', axis=1, inplace=True)
+    df.to_csv(filename, index=False)
+
+
+def clean_group_data(filename):
+    pct_cols = ['Change',
+                'Dividend Yield',
+                'EPS growth next 5 years',
+                'EPS growth past 5 years',
+                'Float Short',
+                'Performance (Half Year)',
+                'Performance (Month)',
+                'Performance (Quarter)',
+                'Performance (Week)',
+                'Performance (Year To Date)',
+                'Performance (Year)',
+                'Sales growth past 5 years']
+    df = pd.read_csv(filename)
+    df[pct_cols] = df[pct_cols].applymap(clean_pcts)
+    df.drop('No.', inplace=True, axis=1)
+    df.to_csv(filename, index=False)
 
 
 def get_last_open_trading_day():
