@@ -427,8 +427,8 @@ def daily_updater():
         up_to_date = today_ny.date() == get_latest_dl_date().date()
         if up_to_date:
             print('up to date; sleeping 1h')
-            time.sleep(3600)
         else:
+            print('not up to date')
             # check if it is a trading day
             is_trading_day = check_if_today_trading_day()
             if is_trading_day and today_ny.hour >= 20:  # wait until after market after-hours close and hopefully data is updated
@@ -436,6 +436,8 @@ def daily_updater():
             elif not is_trading_day:
                 # will use last trading day as date
                 dl_all_data()
+
+        time.sleep(3600)
 
 
 if __name__ == "__main__":
