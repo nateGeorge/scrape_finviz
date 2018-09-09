@@ -260,7 +260,7 @@ def download_group_data(driver, group_str):
     latest_market_date = get_last_open_trading_day()
     dst_filename = FILEPATH + latest_market_date + '_finviz_' + group_str + '.csv'
     os.rename(filename, dst_filename)
-    clean_group_data(filename)
+    clean_group_data(dst_filename)
 
 
 def download_stock_data(driver):
@@ -295,7 +295,7 @@ def download_stock_data(driver):
     latest_market_date = get_last_open_trading_day()
     dst_filename = FILEPATH + latest_market_date + '_finviz_stockdata.csv'
     os.rename(filename, dst_filename)
-    clean_stockdata(filename)
+    clean_stockdata(dst_filename)
 
 
 def clean_stockdata(filename):
@@ -424,7 +424,8 @@ def daily_updater():
         # check if up to date, if it is, sleep
         today_utc = pd.to_datetime('now')
         today_ny = datetime.datetime.now(pytz.timezone('America/New_York'))
-        up_to_date = today_ny.date() == get_latest_dl_date().date()
+        last_trading_day = get_last_open_trading_day()
+        up_to_date = last_trading_day == get_latest_dl_date().strftime('%Y-%m-%d')
         if up_to_date:
             print('up to date; sleeping 1h')
         else:
