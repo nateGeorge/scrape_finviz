@@ -438,6 +438,8 @@ def daily_updater():
                 # will use last trading day as date
                 print('not up to date; downloading')
                 dl_all_data()
+            else:
+                print('waiting for market to close; sleeping 1h...')
 
         time.sleep(3600)
 
