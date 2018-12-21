@@ -47,7 +47,7 @@ def setup_driver():
     # also change downloads folder to ticker_data within git repo
     # then file path to profile, and use here:
     # investing.com was the name of the profile]
-    prof_paths = [#'/home/nate/.mozilla/firefox/exzvq4ez.investing.com',
+    prof_paths = ['/home/nate/.mozilla/firefox/g907vpx4.finviz',
                 # work computer path
                 '/home/nate/.mozilla/firefox/5kd4ffgn.finviz']
     found_prof = False
@@ -244,10 +244,26 @@ def download_group_data(driver, group_str):
             driver.get(groups_url.format(group_str))
         except TimeoutException:
             pass
+
+        # this only seems to happen without premium account login
+        # try:
+        #     # if ad pops up, close it
+        #     ad_close_button = driver.find_element_by_id('close')
+        #     ad_close_button.click()
+        # except NoSuchElementException:
+        #     pass
+
         try:
             # can't use url, need to click link
             # driver.get(groups_dl_url.format(group_str))
             driver.find_element_by_link_text('export').click()
+            # this only seems to happen without premium account login
+            # try:
+            #     # if ad pops up, close it
+            #     ad_close_button = driver.find_element_by_id('close')
+            #     ad_close_button.click()
+            # except NoSuchElementException:
+            #     pass
         except TimeoutException:
             pass
 
