@@ -290,13 +290,13 @@ def download_stock_data(driver):
         try:
             driver.get(stocks_url)
         except TimeoutException:
-            pass
+            print('timed out getting stocks url')
         try:
             # cant use url because wont have all fields
             # driver.get(stocks_dl_url)
             driver.find_element_by_link_text('export').click()
         except TimeoutException:
-            pass
+            print('timed out waiting for data export')
 
         # make sure file is there
         file_exists = os.path.exists(filename)
@@ -461,6 +461,7 @@ def daily_updater():
 
 
 if __name__ == "__main__":
+    # pass
     # dl_all_data()
     daily_updater()
     # driver = setup_driver()
