@@ -450,10 +450,12 @@ def daily_updater():
             if is_trading_day and today_ny.hour >= 20:  # wait until after market after-hours close and hopefully data is updated
                 print('not up to date; downloading')
                 dl_all_data()
+                print('sleeping 1h')
             elif not is_trading_day:
                 # will use last trading day as date
                 print('not up to date; downloading')
                 dl_all_data()
+                print('sleeping 1h')
             else:
                 print('waiting for market to close; sleeping 1h...')
 
