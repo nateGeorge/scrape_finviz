@@ -229,6 +229,14 @@ def remove_leftover_files():
     if os.path.exists(filename):
         os.remove(filename)
 
+    i = 1
+    while True:
+        filename = os.path.join(FILEPATH, 'finviz({}).csv'.format(i))
+        if os.path.exists(filename):
+            os.remove(filename)
+        else:
+            break
+
 
 def download_group_data(driver, group_str):
     """
